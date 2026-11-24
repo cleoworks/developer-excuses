@@ -15,9 +15,12 @@ LINE = "It worked for a year because we had one user — today we got a second o
 
 def main() -> int:
     text = LINE
-    # Gate check: 1-200 characters, not whitespace-only.
+    # Gate check: 1-200 characters, one line, not whitespace-only.
     if not (1 <= len(text) <= 200) or not text.strip():
         print(f"entry invalid: {len(text)} characters", file=sys.stderr)
+        return 1
+    if "\n" in text or "\r" in text:
+        print("entry invalid: must be a single line", file=sys.stderr)
         return 1
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
     os.makedirs(out_dir, exist_ok=True)
